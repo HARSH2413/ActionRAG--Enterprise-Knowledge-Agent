@@ -179,7 +179,7 @@ graph TD
     end
 
     subgraph AI ["🧠 Inference"]
-        Retrieval -->|5. Context + Prompt| Llama[Groq LPU (Llama 3)]
+        Retrieval -->|5. Context + Prompt| Llama["Groq LPU (Llama 3)"]
         Llama -->|Strict Answer| UI
         Llama -->|Email Draft| UI
     end
