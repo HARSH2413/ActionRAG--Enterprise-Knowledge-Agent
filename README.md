@@ -22,6 +22,7 @@
 - [Key Features](#-key-features)
 - [Real-World Usefulness](#-real-world-usefulness)
 - [Tech Stack](#-tech-stack)
+- [System Architecture](#-system-architecture)
 - [How to Run This Project](#-how-to-run-this-project-local-setup)
 - [Anti-Hallucination Strategy](#-anti-hallucination-strategy)
 - [Security & Privacy](#-security--privacy)
@@ -158,6 +159,30 @@ Action-RAG bridges the gap between **information retrieval and real-world action
 - **Frontend:** Streamlit
 
 ---
+## ⚙️ System Architecture
+
+Action-RAG follows a secure retrieval pipeline.
+
+```mermaid
+graph TD
+    subgraph Client ["🖥️ Frontend"]
+        User[User] -->|1. Upload PDF| UI[Streamlit App]
+        User -->|3. Ask Question| UI
+        UI -->|6. Click 'Draft Email'| UI
+    end
+
+    subgraph Server ["⚙️ Backend Logic"]
+        UI -->|2. Ingest| Ingestion[Text Chunking]
+        UI -->|4. Search| Retrieval[Semantic Search]
+        Ingestion -->|Embed| DB[(FAISS Vector DB)]
+        Retrieval -->|Query| DB
+    end
+
+    subgraph AI ["🧠 Inference"]
+        Retrieval -->|5. Context + Prompt| Llama[Groq LPU (Llama 3)]
+        Llama -->|Strict Answer| UI
+        Llama -->|Email Draft| UI
+    end
 
 ▶️ How to Run This Project (Local Setup)
 1️⃣ Clone the Repository
